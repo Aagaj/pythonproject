@@ -1,74 +1,68 @@
 
-import pandas as pd
-import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
-df=pd.read_csv("/Users/aagaj/Downloads/3b01bcb8-0b14-4abf-b6f2-c1bfd384ba69 (1).csv")
-df.head(2)
-df.fillna(df.mean(numeric_only=True), inplace=True)
-df.fillna(df.mode().iloc[0], inplace=True)
-df.head()
-if 'station' in df.columns and 'pollutant_avg' in df.columns:
-    plt.figure(figsize=(8, 6))
-    sns.barplot(x='station', y='pollutant_avg', data=df, palette="Blues_d")
-    plt.title('Bar Chart: Average Pollutant by Station')
-    plt.show()
-    if 'city' in df.columns:
-    city_counts = df['city'].value_counts()
-    plt.figure(figsize=(7, 7))
-    city_counts.plot.pie(autopct='%1.1f%%', startangle=90, colors=sns.color_palette('Set3', len(city_counts)))
-    plt.title('Pie Chart: city Distribution')
-    plt.ylabel('')
-    plt.show()
-if 'pollutant_avg' in df.columns:
-    plt.figure(figsize=(8, 6))
-    sns.histplot(df['pollutant_avg'], kde=True, color='blue', bins=10)
-    plt.title('Histogram: Distribution of Pollutant Average')
-    plt.xlabel('Pollutant Avg')
-    plt.ylabel('Frequency')
-    plt.show()
-    if 'pollutant_avg' in df.columns and 'latitude' in df.columns:
-    plt.figure(figsize=(8, 6))
-    sns.scatterplot(x='pollutant_avg', y='latitude', data=df, hue='country', palette='Set1')
-    plt.title('Scatter Plot: Pollutant Average vs Latitude')
-    plt.xlabel('Pollutant Avg')
-    plt.ylabel('Latitude')
-    plt.show()
-df.describe()
-if 'longitude' in df.columns and 'pollutant_avg' in df.columns:
-    plt.figure(figsize=(8, 6))
-    sns.lineplot(x='longitude', y='pollutant_avg', data=df, marker='o', color='green')
-    plt.title('Line Plot: Pollutant Avg over Longitude')
-    plt.xlabel('Longitude')
-    plt.ylabel('Pollutant Avg')
-    plt.show()
-numeric_df = df.select_dtypes(include=[np.number])
-corr = numeric_df.corr()
-plt.figure(figsize=(8, 6))
-sns.heatmap(corr, annot=True, cmap='coolwarm', linewidths=0.5, fmt='.2f', center=0)
-plt.title('Correlation Heatmap')
-plt.show()
-if 'country' in df.columns and 'pollutant_avg' in df.columns:
-    plt.figure(figsize=(8, 6))
-    sns.boxplot(x='country', y='pollutant_avg', data=df, palette="Set2")
-    plt.title('Box Plot: Pollutant Avg by Country')
-    plt.show()
-summary = df.describe()
-print("Summary Statistics:")
-print(summary)
+# 🌍 Air Pollution Data Analysis
 
-if all(col in df.columns for col in ['country', 'pollutant_avg', 'latitude']):
-    plt.figure(figsize=(10, 8))
-    sns.pairplot(df, hue='country', palette='Set1')
-    plt.title('Pair Plot: Relationships between Columns')
-    plt.show()
+This repository contains a data analysis and visualization notebook built using Python libraries like **Pandas**, **NumPy**, **Seaborn**, and **Matplotlib**. The dataset used contains information about pollution levels across various cities, stations, and countries.
 
-if 'country' in df.columns and 'pollutant_avg' in df.columns:
-    Q1 = df['pollutant_avg'].quantile(0.25)
-    Q3 = df['pollutant_avg'].quantile(0.75)
-    IQR = Q3 - Q1
-    df_no_outliers = df[(df['pollutant_avg'] >= Q1 - 1.5 * IQR) & (df['pollutant_avg'] <= Q3 + 1.5 * IQR)]
-    plt.figure(figsize=(8, 6))
-    sns.boxplot(x='country', y='pollutant_avg', data=df_no_outliers, palette="Set2")
-    plt.title('Box Plot: Pollutant Avg by Country (Outliers Removed)')
-    plt.show()
+## 📁 Dataset
+
+The dataset used in this project is a `.csv` file (example: `3b01bcb8-0b14-4abf-b6f2-c1bfd384ba69.csv`) that includes fields such as:
+- `station`
+- `city`
+- `country`
+- `pollutant_avg`
+- `latitude`
+- `longitude`
+
+## 🔧 Technologies Used
+
+- Python
+- Pandas
+- NumPy
+- Matplotlib
+- Seaborn
+
+## 📊 Visualizations Included
+
+This project generates multiple types of visualizations to understand the dataset:
+
+1. **Bar Plot** – Average pollutant by station
+2. **Pie Chart** – Distribution of entries by city
+3. **Histogram** – Distribution of `pollutant_avg` values
+4. **Scatter Plot** – Pollutant Average vs Latitude with country-wise hue
+5. **Line Plot** – Pollutant Average across Longitudes
+6. **Correlation Heatmap** – Relationship among numeric columns
+7. **Box Plot** – Pollutant Average distribution per country
+8. **Pair Plot** – Country-wise scatter relationships
+9. **Outlier-Free Box Plot** – Refined pollutant averages by country
+
+## 🧼 Data Cleaning
+
+- Missing numeric values are filled with column means.
+- Categorical missing values are filled with the mode.
+- Outliers are handled using the IQR (Interquartile Range) method.
+
+## 📈 Summary Statistics
+
+The notebook also prints descriptive statistics using `df.describe()` to get insights into the dataset's distribution, central tendency, and spread.
+
+## 📂 Usage
+
+To run this project:
+
+1. Clone the repository or download the `.ipynb`/`.py` file.
+2. Make sure you have the required libraries installed:
+
+```bash
+pip install pandas numpy matplotlib seaborn
+```
+
+3. Replace the CSV path in the `read_csv()` method with your dataset path.
+4. Run the script or notebook.
+
+## 🧪 Sample Output
+
+- Visual plots for easy understanding of trends
+- Insights into pollution averages by location
+- Detection and removal of outliers
+- Heatmaps showing correlation between numerical columns
+
